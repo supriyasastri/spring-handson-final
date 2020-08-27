@@ -1,5 +1,7 @@
 package org.springmvc.controller;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Base64;
+
 
 @Controller
 public class HomeController {
@@ -21,8 +23,8 @@ public class HomeController {
     public byte[] helloWorld(@PathVariable String imageName, @PathVariable String imageType) {
         byte[] fileBytes = new byte[0];
         try {
-            File file = new File("/files/" + imageName + "." + imageType);
-            System.out.println(file.getAbsolutePath());
+            Resource resource = new ClassPathResource("/files/" + imageName + "." + imageType);
+            File file = resource.getFile();
             ByteArrayOutputStream bos;
             try (FileInputStream fis = new FileInputStream(file)) {
                 bos = new ByteArrayOutputStream();
